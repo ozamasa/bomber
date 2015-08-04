@@ -895,6 +895,12 @@ doors &lt;&lt; door4 = <span class="dt">Bomber</span>::<span class="dt">Door</sp
 35
 36
 37
+38
+39
+40
+41
+42
+43
 </pre></td><td class="sourceCode"><pre><code class="sourceCode ruby"><span class="kw">module</span> <span class="dt">Bomber</span>
   <span class="kw">class</span> <span class="dt">Player</span> &lt; <span class="dt">Bomber</span>::<span class="dt">Character</span>
     <span class="ot">attr_accessor</span> <span class="st">:guide</span>, <span class="st">:agl</span>
@@ -912,6 +918,9 @@ doors &lt;&lt; door4 = <span class="dt">Bomber</span>::<span class="dt">Door</sp
     <span class="kw">def</span> atack
       <span class="dv">super</span>
       <span class="kw">if</span> all_enemy.empty?
+        sleep <span class="dv">1</span>
+        gameclear = <span class="dt">Bomber</span>::<span class="dt">GameClear</span>.new
+        gameclear.z = <span class="dv">10</span>
         sleep <span class="dv">3</span>
         exit
       <span class="kw">end</span>
@@ -927,6 +936,9 @@ doors &lt;&lt; door4 = <span class="dt">Bomber</span>::<span class="dt">Door</sp
 
     <span class="kw">def</span> lose
       <span class="dv">super</span>
+      sleep <span class="dv">1</span>
+      gameover = <span class="dt">Bomber</span>::<span class="dt">GameOver</span>.new
+      gameover.z = <span class="dv">10</span>
       sleep <span class="dv">3</span>
       exit
     <span class="kw">end</span>
@@ -1110,7 +1122,7 @@ doors &lt;&lt; door4 = <span class="dt">Bomber</span>::<span class="dt">Door</sp
 58
 59
 60
-</pre></td><td class="sourceCode"><pre><code class="sourceCode ruby" ><span class="kw">module</span> <span class="dt">Bomber</span>
+</pre></td><td class="sourceCode"><pre><code class="sourceCode ruby"><span class="kw">module</span> <span class="dt">Bomber</span>
   <span class="kw">class</span> <span class="dt">EnemyWizard</span> &lt; <span class="dt">Bomber</span>::<span class="dt">Character</span>
     <span class="ot">attr_accessor</span> <span class="st">:guide</span>, <span class="st">:agl</span>
     <span class="kw">def</span> initialize(x, y, angle, delay=<span class="dv">0</span>)
@@ -1157,7 +1169,7 @@ doors &lt;&lt; door4 = <span class="dt">Bomber</span>::<span class="dt">Door</sp
         say(message: <span class="st">&quot;エイ！&quot;</span>)
         num = rand(<span class="dv">4</span>)
         <span class="kw">if</span> num &lt; <span class="dv">3</span>
-          obj=<span class="dt" style="font-size: smaller;">Bomber</span>::<span class="dt" style="font-size: smaller;">Block</span>.new(<span class="st">&quot;x&quot;</span>=&gt;<span style="font-size: smaller;">next_block</span>[<span class="dv">0</span>],<span class="st">&quot;y&quot;</span>=&gt;<span class="dt" style="font-size: smaller;">next_block</span>[<span class="dv">1</span>],<span class="st">&quot;col&quot;</span>=&gt;<span class="dt" style="font-size: smaller;">block_list</span>[num])  
+          obj = <span class="dt">Bomber</span>::<span class="dt">Block</span>.new(<span class="st">&quot;x&quot;</span> =&gt; next_block[<span class="dv">0</span>], <span class="st">&quot;y&quot;</span> =&gt; next_block[<span class="dv">1</span>], <span class="st">&quot;col&quot;</span> =&gt; block_list[num])
           <span class="dt">$blocks</span> &lt;&lt; obj
         <span class="kw">else</span>
           obj = <span class="dt">Bomber</span>::<span class="dt">Door</span>.new(*next_block, <span class="dv">self</span>.agl)
